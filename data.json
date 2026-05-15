@@ -1,0 +1,513 @@
+{
+  "featuredProducts": [
+    {
+      "id": 1,
+      "title": "O2 PREMIUM 5D Massage Chair – 90-02",
+      "price": "₹99,999",
+      "mrp": "₹1,29,999",
+      "features": [
+        "25 Auto & 5 Manual Programs",
+        "54 Airbags, Full Body Massage",
+        "Zero Gravity + SL Track",
+        "Bluetooth, Heat Therapy, Calf Roller"
+      ],
+      "image": "FeaturedIMG3"
+    },
+    {
+      "id": 2,
+      "title": "O2 ACUPRESSURE LEG MASSAGER – 416-02",
+      "price": "₹25,999",
+      "mrp": "₹34,999",
+      "features": [
+        "Foot & Calf Kneading",
+        "Vibration + Heat Therapy",
+        "3 Auto Modes & Manual Settings",
+        "Compact and Zip Cover"
+      ],
+      "image": "FeaturedIMG2"
+    },
+    {
+      "id": 3,
+      "title": "Massage Chair – Model X",
+      "price": "₹49,999",
+      "mrp": "₹59,999",
+      "features": [
+        "8 Auto Programs",
+        "Full Body Airbags",
+        "SL Track + Bluetooth",
+        "Heated Rollers"
+      ],
+      "image": "FeaturedIMG1"
+    },
+    {
+      "id": 4,
+      "title": "Massage Cushion – Model C",
+      "price": "₹10,999",
+      "mrp": "₹15,999",
+      "features": [
+        "Compact Cushion Massage",
+        "3 Modes",
+        "Heat Therapy",
+        "Portable"
+      ],
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 5,
+      "title": "Handheld Massager – Turbo",
+      "price": "₹5,999",
+      "mrp": "₹8,999",
+      "features": [
+        "Handheld Massage Gun",
+        "Adjustable Speed",
+        "USB Charging",
+        "Silent Motor"
+      ],
+      "image": "https://via.placeholder.com/150"
+    }
+  ],
+
+
+  "discoverProducts": [
+    {
+      "name": "Massage Chairs",
+      "image": "chairImg"
+    },
+    {
+      "name": "Leg And Foot Massager",
+      "image": "legImg"
+    },
+    {
+      "name": "Car Mini Massager",
+      "image": "carImg"
+    },
+    {
+      "name": "Steam Massager",
+      "image": "steamImg"
+    }
+  ],
+
+
+  "reviews":[
+    {
+    "name": "Aarthy V",
+    "image": "Review1",
+    "review": "I’ve been using HOPC for 6 months for hair & scalp health. This Zero-Dandruff Oil helped manage hair fall and strengthened my hair. Feels better than expensive beauty products.",
+    "stars": 5
+  },
+  {
+    "name": "Naveen M",
+    "image": "Review2",
+    "review": "Great product and quick logistics. Ordering was a breeze and it was worth the value. Natural ingredients that work as intended. Just wow!",
+    "stars": 2.5
+  },
+  {
+    "name": "Preku S",
+    "image": "Review3",
+    "review": "I bought this for my mom. She loves the feel and message HOPC sends with their care kits. The products are super handy and safe.",
+    "stars": 4.5
+  },
+  {
+    "name": "Dr. Arun",
+    "image": "Review4",
+    "review": "Well done to this organic brand! As an ENT doctor, I highly value this level of care and purity. No chemicals or parabens. My patients also benefit.",
+    "stars": 3.5
+  }
+  ],
+
+
+  "shopcat":[
+     {
+    "id": 1,
+    "title": "O2 Fitness Health Care RUBY A321-2.3D Model",
+    "type": "Massage Chair",
+    "rating": 4.5,
+    "reviews": 123,
+    "price": "₹1,70,000",
+    "original": "₹2,40,000",
+    "image": "Image1"
+  },
+  {
+    "id": 2,
+    "title": "O2 Fitness Health Care Car Seat Massager Big",
+    "type": "Massage Chair",
+    "rating": 4.3,
+    "reviews": 112,
+    "price": "₹1,70,000",
+    "original": "₹2,40,000",
+    "image": "Image2"
+  },
+  {
+    "id": 3,
+    "title": "O2 Fitness Health Care Mini Foot Massager",
+    "type": "Foot Massager",
+    "rating": 4.0,
+    "reviews": 80,
+    "price": "₹6,499",
+    "original": "₹14,999",
+    "image": "Image3"
+  },
+  {
+    "id": 4,
+    "title": "O2 Fitness Health Care Home Gym Fitness, Advanced Model",
+    "type": "Home Gym",
+    "rating": 4.4,
+    "reviews": 97,
+    "price": "₹28,500",
+    "original": "₹32,500",
+    "image": "Image4"
+  },
+  {
+    "id": 5,
+    "title": "O2 Fitness Health Care Mini Vibrator Machine",
+    "type": "Vibration Machine",
+    "rating": 4.2,
+    "reviews": 76,
+    "price": "₹11,600",
+    "original": "₹22,000",
+    "image": "Image5"
+  },
+  {
+    "id": 6,
+    "title": "O2 Fitness Health Care Neck Kneading Special",
+    "type": "Neck Massager",
+    "rating": 4.1,
+    "reviews": 69,
+    "price": "₹2,499",
+    "original": "₹4,500",
+    "image": "Image6"
+  }
+],
+
+
+"bewellness":[
+  {
+    "title": "Mission",
+    "gradient": "from-orange-500 to-yellow-400",
+    "triangleColor": "#f97316",
+    "content": "At O2 Fitness Healthcare, our mission is to make wellness a part of everyday life by offering smart, reliable, and affordable massage and fitness solutions. We aim to empower people of all ages to take control of their physical well-being through technology-driven products that deliver real relief and comfort."
+  },
+  {
+    "title": "Vision",
+    "gradient": "from-blue-500 to-cyan-400",
+    "triangleColor": "#3b82f6",
+    "content": "At O2 Fitness Healthcare, our vision is to make wellness a part of everyday life by offering smart, reliable, and affordable massage and fitness solutions. We aim to empower people of all ages to take control of their physical well-being through technology-driven products that deliver real relief and comfort."
+  },
+  {
+    "title": "Core Value",
+    "gradient": "from-sky-500 to-blue-400",
+    "triangleColor": "#0ea5e9",
+    "content": "At O2 Fitness Healthcare, our mission is to make wellness a part of everyday life by offering smart, reliable, and affordable massage and fitness solutions. We aim to empower people of all ages to take control of their physical well-being through technology-driven products that deliver real relief and comfort."
+  }
+],
+
+
+"testimonial":[
+  {
+    "name": "Aarthi V., Chennai",
+    "review": "The O2 massage chair has become part of my daily routine. It helps me relax after long hours at work and has improved my back pain tremendously!",
+    "image": "/src/assets/About/CusSay1.jpg",
+    "rating": 5
+  },
+  {
+    "name": "Kumar M., Chennai",
+    "review": "Excellent service and high-quality product. The leg massager works wonders after my evening walk!",
+    "image": "/src/assets/About/CusSay2.jpg",
+    "rating": 4
+  },
+  {
+    "name": "VJ, Chennai",
+    "review": "Excellent service and high-quality product. The leg massager works wonders after my evening walk!",
+    "image": "/src/assets/About/CusSay2.jpg",
+    "rating": 4
+  }
+],
+
+
+"timelinedata": [
+  {
+    "number": "01",
+    "color": "bg-orange-500",
+    "topText": ["Brand founded", "in Chennai"],
+    "bottomText": []
+  },
+  {
+    "number": "02",
+    "color": "bg-sky-500",
+    "topText": [],
+    "bottomText": ["Expanded to", "Salem"]
+  },
+  {
+    "number": "03",
+    "color": "bg-orange-500",
+    "topText": ["Crossed 10,000+", "chairs sold"],
+    "bottomText": []
+  },
+  {
+    "number": "04",
+    "color": "bg-sky-500",
+    "topText": [],
+    "bottomText": ["Launched smart", "fitness accessories"]
+  }
+],
+
+
+"feature":[
+  {
+    "text": "Free Door Delivery",
+    "color": "bg-orange-500",
+    "x": "left-0",
+    "y": "top-0"
+  },
+  {
+    "text": "1-Year Guarantee + 2-Year Warranty",
+    "color": "bg-sky-500",
+    "x": "left-[10%]",
+    "y": "top-[25%]"
+  },
+  {
+    "text": "Pan-India Support",
+    "color": "bg-orange-500",
+    "x": "left-[25%]",
+    "y": "top-[55%]"
+  },
+  {
+    "text": "Premium 3D/AI/SD Massage Technology",
+    "color": "bg-orange-500",
+    "x": "right-[25%]",
+    "y": "top-[55%]"
+  },
+  {
+    "text": "Designed for Total Body Relief",
+    "color": "bg-sky-500",
+    "x": "right-[10%]",
+    "y": "top-[25%]"
+  },
+  {
+    "text": "Trusted by 10,000+ Customers",
+    "color": "bg-orange-500",
+    "x": "right-0",
+    "y": "top-0"
+  }
+],
+
+
+"massagechairproduct": [
+  {
+    "id": 1,
+    "title": "O2 Fitness Health Care Business Class 3D-Model",
+    "image": "MCimg1",
+    "oldPrice": "₹2,65,000",
+    "price": "₹2,08,500",
+    "rating": "4.8",
+    "reviews": "1,204",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 2,
+    "title": "O2 Fitness Health Care Taaffelite A372-2 3D Model",
+    "image": "MCimg2",
+    "oldPrice": "₹3,15,000",
+    "price": "₹2,75,000",
+    "rating": "4.9",
+    "reviews": "987",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 3,
+    "title": "O2 Fitness Health Care Jade A321-B 3D Model",
+    "image": "MCimg3",
+    "oldPrice": "₹2,60,000",
+    "price": "₹1,95,000",
+    "rating": "4.7",
+    "reviews": "800",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 4,
+    "title": "O2 Fitness Health Care Armani A350 3D Model",
+    "image": "MCimg4",
+    "oldPrice": "₹2,45,000",
+    "price": "₹1,85,000",
+    "rating": "4.5",
+    "reviews": "945",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 5,
+    "title": "O2 Fitness Health Care Baby A321-2 3D Model",
+    "image": "MCimg5",
+    "oldPrice": "₹2,50,000",
+    "price": "₹1,79,000",
+    "rating": "4.6",
+    "reviews": "1,002",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 6,
+    "title": "O2 Fitness Health Care Relax Chair Pro",
+    "image": "MCimg6",
+    "oldPrice": "₹2,40,000",
+    "price": "₹1,44,000",
+    "rating": "4.4",
+    "reviews": "987",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 7,
+    "title": "O2 Fitness Health Care Armani A350 3D Model",
+    "image": "MCimg7",
+    "oldPrice": "₹2,45,000",
+    "price": "₹1,85,000",
+    "rating": "4.5",
+    "reviews": "945",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 8,
+    "title": "O2 Fitness Health Care Baby A321-2 3D Model",
+    "image": "MCimg8",
+    "oldPrice": "₹2,50,000",
+    "price": "₹1,79,000",
+    "rating": "4.6",
+    "reviews": "1,002",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 9,
+    "title": "O2 Fitness Health Care Relax Chair Pro",
+    "image": "MCimg9",
+    "oldPrice": "₹2,40,000",
+    "price": "₹1,44,000",
+    "rating": "4.4",
+    "reviews": "987",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 10,
+    "title": "O2 Fitness Health Care Relax Chair Pro",
+    "image": "MCimg10",
+    "oldPrice": "₹2,40,000",
+    "price": "₹1,44,000",
+    "rating": "4.4",
+    "reviews": "987",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 11,
+    "title": "O2 Fitness Health Care Relax Chair Pro",
+    "image": "MCimg11",
+    "oldPrice": "₹2,40,000",
+    "price": "₹1,44,000",
+    "rating": "4.4",
+    "reviews": "987",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 12,
+    "title": "O2 Fitness Health Care Relax Chair Pro",
+    "image": "MCimg12",
+    "oldPrice": "₹2,40,000",
+    "price": "₹1,44,000",
+    "rating": "4.4",
+    "reviews": "987",
+    "tag": "Massage Chair"
+  }
+],
+
+
+"topratedproducts":[
+  {
+    "id": 1,
+    "title": "O2 Fitness Health Care 200-Q2 3D – Business Class Model",
+    "image": "TopIMG1",
+    "oldPrice": "₹2,10,000",
+    "price": "₹1,70,000",
+    "rating": "4.6",
+    "reviews": "1,234",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 2,
+    "title": "O2 Fitness Health Care Core Gem Bed Massager",
+    "image": "TopIMG2",
+    "oldPrice": "₹2,85,000",
+    "price": "₹2,10,000",
+    "rating": "4.9",
+    "reviews": "5,689",
+    "tag": "Bed Massager"
+  },
+  {
+    "id": 3,
+    "title": "O2 Fitness Health Care FL – Acupressure Leg Massager",
+    "image": "TopIMG3",
+    "oldPrice": "₹4,599",
+    "price": "₹3,599",
+    "rating": "4.9",
+    "reviews": "4,659",
+    "tag": "Leg & Foot Massager"
+  },
+  {
+    "id": 4,
+    "title": "O2 Fitness Health Care DISC TYPE MINI MODEL – 3D",
+    "image": "TopIMG4",
+    "oldPrice": "₹1,70,000",
+    "price": "₹1,10,000",
+    "rating": "4.5",
+    "reviews": "1,203",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 5,
+    "title": "O2 Fitness Health Care PREMIUM 5D Massage Chair – 90-Q2",
+    "image": "TopIMG5",
+    "oldPrice": "₹2,60,000",
+    "price": "₹1,95,000",
+    "rating": "4.7",
+    "reviews": "2,010",
+    "tag": "Massage Chair"
+  },
+  {
+    "id": 6,
+    "title": "O2 Fitness Health Care Leg Beautician",
+    "image": "TopIMG6",
+    "oldPrice": "₹5,999",
+    "price": "₹3,599",
+    "rating": "4.3",
+    "reviews": "1,890",
+    "tag": "Leg & Foot Massager"
+  },
+  {
+    "id": 7,
+    "title": "O2 Fitness Health Care Neck Kneading Special",
+    "image": "TopIMG7",
+    "oldPrice": "₹3,499",
+    "price": "₹2,499",
+    "rating": "4.3",
+    "reviews": "1,231",
+    "tag": "Neck Kneading"
+  },
+  {
+    "id": 8,
+    "title": "O2 Fitness Health Care Magnetic Bed Matters",
+    "image": "TopIMG8",
+    "oldPrice": "₹28,500",
+    "price": "₹17,799",
+    "rating": "4.3",
+    "reviews": "1,231",
+    "tag": "Bed Matters"
+  },
+  {
+    "id": 9,
+    "title": "O2 Fitness Health Care 12 Balls Car Seat Massager",
+    "image": "TopIMG9",
+    "oldPrice": "₹9,500",
+    "price": "₹6,500",
+    "rating": "4.3",
+    "reviews": "1,231",
+    "tag": "Car Seat Massager"
+  }
+]
+
+
+}

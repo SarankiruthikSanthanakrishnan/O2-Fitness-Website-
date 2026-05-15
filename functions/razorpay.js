@@ -12,6 +12,10 @@ const db = admin.firestore();
 
 exports.createRazorpayOrder = functions.https.onRequest((req, res) => {
   cors(req, res, async () => {
+    // Declare here so catch block can safely reference them
+    let orderNumber;
+    let amountInPaise;
+
     try {
       // Initialize Razorpay inside the function to access runtime config
       const razorpay = new Razorpay({
@@ -19,20 +23,48 @@ exports.createRazorpayOrder = functions.https.onRequest((req, res) => {
         key_secret: functions.config().razorpay.secret_key,
       });
 
-      const { amount, orderNumber } = req.body;
+      const { amount } = req.body;
+      orderNumber = req.body.orderNumber;
+      amountInPaise = Math.round(Number(amount) * 100);
+
+      if (!Number.isFinite(amountInPaise) || amountInPaise <= 0) {
+        return res.status(400).send({ error: "Invalid order amount" });
+      }
 
       const options = {
-        amount: amount * 100,
+        amount: amountInPaise,
         currency: "INR",
         receipt: orderNumber,
         payment_capture: 1, // ⭐ Auto-capture enabled
       };
 
+      console.log("Creating Razorpay order:", {
+        orderNumber,
+        amountInPaise,
+      });
+
       const order = await razorpay.orders.create(options);
 
       return res.status(200).send({ order });
     } catch (error) {
-      return res.status(500).send({ error: error.message });
+      const errorDetails = {
+        message: error && error.message ? error.message : String(error),
+        code: error && error.code ? error.code : undefined,
+        statusCode: error && error.statusCode ? error.statusCode : undefined,
+        errorResponse: error && error.error ? error.error : undefined,
+      };
+
+      console.error("Razorpay order creation failed:", {
+        orderNumber: orderNumber || null,
+        amountInPaise: typeof amountInPaise === "number" ? amountInPaise : null,
+        error: errorDetails,
+      });
+
+      return res.status(errorDetails.statusCode || 500).send({
+        error: errorDetails.message,
+        code: errorDetails.code,
+        details: errorDetails.errorResponse || "No additional details",
+      });
     }
   });
 });
@@ -66,7 +98,7 @@ exports.razorpayWebhook = functions.https.onRequest((req, res) => {
 
     if (event === "payment.captured" || event === "order.paid") {
       const ordersRef = db.collection("orders");
-      
+
       // Query Firestore by razorpayOrderId
       return ordersRef.where("razorpayOrderId", "==", orderId).get().then(async (snapshot) => {
         if (snapshot.empty) {
@@ -75,7 +107,7 @@ exports.razorpayWebhook = functions.https.onRequest((req, res) => {
         }
 
         const docId = snapshot.docs[0].id;
-        
+
         await ordersRef.doc(docId).update({
           paymentStatus: "paid",
           razorpayPaymentId: payment.id,

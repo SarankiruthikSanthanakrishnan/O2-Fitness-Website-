@@ -30,6 +30,18 @@ export default function CheckoutPage() {
 
   const [errors, setErrors] = useState({});
 
+  const formatRazorpayError = (error = {}) => {
+    const parts = [
+      error.code,
+      error.reason,
+      error.description,
+      error.source,
+      error.step,
+    ].filter(Boolean);
+
+    return parts.length > 0 ? parts.join(" | ") : "Unknown Razorpay error";
+  };
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
@@ -116,13 +128,22 @@ export default function CheckoutPage() {
     const rzp = new window.Razorpay(options);
 
     rzp.on("payment.failed", async function (response) {
+      const razorpayError = response?.error || {};
+      console.error("Razorpay payment failed:", razorpayError);
+
       const orderRef = doc(db, "orders", orderId);
       await updateDoc(orderRef, {
         paymentStatus: "failed",
         status: "Pending",
+        razorpayErrorCode: razorpayError.code || "",
+        razorpayErrorReason: razorpayError.reason || "",
+        razorpayErrorDescription: razorpayError.description || "",
+        razorpayErrorSource: razorpayError.source || "",
+        razorpayErrorStep: razorpayError.step || "",
+        razorpayErrorMetadata: razorpayError.metadata || {},
       });
 
-      toast.error("Payment failed! You can retry later.");
+      toast.error(`Payment failed: ${formatRazorpayError(razorpayError)}`);
     });
 
     rzp.open();
@@ -162,6 +183,7 @@ export default function CheckoutPage() {
 
       // ⭐ Call Cloud Function to create Razorpay Order
       console.log("Using Razorpay Key:", import.meta.env.VITE_RAZORPAY_KEY_ID); // 🔍 Debug Log
+      console.log("Sending to Razorpay:", { total, orderNumber, totalInPaise: total * 100 });
 
       const response = await fetch("https://us-central1-o2fitness-5b77f.cloudfunctions.net/createRazorpayOrder", {
         method: "POST",
@@ -174,7 +196,14 @@ export default function CheckoutPage() {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Cloud Function Error:", errorData);
-        throw new Error(errorData.error || "Cloud Function failed");
+        let errorMsg = errorData.error || "Cloud Function failed";
+        if (errorData.code) {
+          errorMsg += ` (${errorData.code})`;
+        }
+        if (errorData.details) {
+          errorMsg += ` - ${JSON.stringify(errorData.details)}`;
+        }
+        throw new Error(errorMsg);
       }
 
       const data = await response.json();
@@ -191,8 +220,8 @@ export default function CheckoutPage() {
 
       handlePayment(orderNumber, total, orderRef.id, razorpayOrderId);
     } catch (error) {
-      console.error(error);
-      toast.error("Unable to create order. Try again.");
+      console.error("Unable to create order:", error);
+      toast.error(error?.message || "Unable to create order. Try again.");
     }
   };
   return (

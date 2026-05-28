@@ -9,6 +9,9 @@ if (!admin.apps.length) {
 }
 
 const db = admin.firestore();
+const razorpayKeyId = process.env.RAZORPAY_KEY_ID || process.env.VITE_RAZORPAY_KEY_ID;
+const razorpaySecretKey = process.env.RAZORPAY_SECRET_KEY || process.env.API_SECRET_KEY;
+const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || process.env.WEBHOOK_SECRET;
 
 exports.createRazorpayOrder = functions.https.onRequest((req, res) => {
   cors(req, res, async () => {
@@ -19,8 +22,8 @@ exports.createRazorpayOrder = functions.https.onRequest((req, res) => {
     try {
       // Initialize Razorpay inside the function to access runtime config
       const razorpay = new Razorpay({
-        key_id: functions.config().razorpay.key_id,
-        key_secret: functions.config().razorpay.secret_key,
+        key_id: razorpayKeyId,
+        key_secret: razorpaySecretKey,
       });
 
       const { amount } = req.body;
@@ -72,7 +75,6 @@ exports.createRazorpayOrder = functions.https.onRequest((req, res) => {
 exports.razorpayWebhook = functions.https.onRequest((req, res) => {
   // We don't use cors here because Razorpay sends server-to-server requests
   try {
-    const webhookSecret = functions.config().razorpay.webhook_secret;
     const signature = req.headers["x-razorpay-signature"];
 
     if (!webhookSecret || !signature) {

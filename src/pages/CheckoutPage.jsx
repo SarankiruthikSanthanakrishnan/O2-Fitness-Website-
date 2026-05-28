@@ -12,6 +12,8 @@ import {
 import { clearCart } from "../redux/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { MapPin, ShieldCheck, CreditCard, Check, ShoppingBag, Home } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function CheckoutPage() {
   const cart = useSelector((state) => state.cart.items || []);
@@ -29,6 +31,8 @@ export default function CheckoutPage() {
   });
 
   const [errors, setErrors] = useState({});
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
 
   const formatRazorpayError = (error = {}) => {
     const parts = [
@@ -54,7 +58,9 @@ export default function CheckoutPage() {
     if (!form.mobileNumber) newErrors.mobileNumber = "Mobile number is required";
     else if (!/^[0-9]{10}$/.test(form.mobileNumber))
       newErrors.mobileNumber = "Enter a valid 10-digit mobile number";
-    if (!form.email) newErrors.email = "Email is required";
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Enter a valid email address";
+    }
     if (!form.address) newErrors.address = "Address is required";
     if (!form.city) newErrors.city = "City is required";
     if (!form.postalCode) newErrors.postalCode = "Postal code is required";
@@ -116,9 +122,15 @@ export default function CheckoutPage() {
             status: "Confirmed",
           });
 
+          // Set order success view
+          setOrderDetails({
+             orderNumber,
+             total,
+             items: [...cart]
+          });
+          setOrderPlaced(true);
           dispatch(clearCart());
           toast.success(`Payment successful! Order ${orderNumber} placed.`);
-          navigate("/");
         } catch {
           toast.error("Payment succeeded, but order update failed.");
         }
@@ -224,75 +236,228 @@ export default function CheckoutPage() {
       toast.error(error?.message || "Unable to create order. Try again.");
     }
   };
-  return (
-    <div className="max-w-7xl mx-auto p-6 md:flex md:gap-10">
-      {/* 🏠 Shipping Address */}
-      <div className="md:w-1/2 bg-white p-6 rounded shadow">
-        <h2 className="text-2xl font-bold mb-6 border-b pb-2">Shipping Address</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <input name="firstName" placeholder="First Name" onChange={handleChange} className="border rounded p-2 w-full" />
-            {errors.firstName && <p className="text-red-600 text-sm">{errors.firstName}</p>}
-          </div>
-          <div>
-            <input name="lastName" placeholder="Last Name" onChange={handleChange} className="border rounded p-2 w-full" />
-            {errors.lastName && <p className="text-red-600 text-sm">{errors.lastName}</p>}
-          </div>
-        </div>
+  if (orderPlaced) {
+    return (
+      <div className="min-h-screen bg-gray-50/50 py-12 flex items-center justify-center px-4">
+        <motion.div 
+           initial={{ opacity: 0, y: 20 }} 
+           animate={{ opacity: 1, y: 0 }} 
+           transition={{ duration: 0.5, ease: "easeOut" }}
+           className="max-w-lg w-full bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
+        >
+           {/* Success Header with Burst */}
+           <div className="px-6 py-10 md:px-10 text-center relative overflow-hidden bg-white">
+               {/* Confetti Burst */}
+               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+                 {Array.from({ length: 24 }).map((_, i) => (
+                   <motion.div
+                     key={i}
+                     className={`absolute w-2 h-2 rounded-full ${['bg-red-400', 'bg-blue-400', 'bg-yellow-400', 'bg-green-400', 'bg-purple-400'][i % 5]}`}
+                     initial={{ opacity: 1, scale: 0, x: 0, y: 0 }}
+                     animate={{
+                       opacity: 0,
+                       scale: [0, 1.2],
+                       x: Math.cos((i * 15 * Math.PI) / 180) * 150,
+                       y: Math.sin((i * 15 * Math.PI) / 180) * 150,
+                     }}
+                     transition={{ duration: 1.5, ease: "easeOut", delay: 0.1 }}
+                   />
+                 ))}
+               </div>
 
-        <div className="mt-4">
-          <input name="mobileNumber" placeholder="Mobile Number" onChange={handleChange} className="w-full border rounded p-2" />
-          {errors.mobileNumber && <p className="text-red-600 text-sm">{errors.mobileNumber}</p>}
-        </div>
+               {/* Animated Checkmark */}
+               <motion.div 
+                 initial={{ scale: 0 }} 
+                 animate={{ scale: 1 }} 
+                 transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 12 }}
+                 className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-5 shadow-sm relative z-10"
+               >
+                  <Check className="w-8 h-8 text-white" strokeWidth={3} />
+               </motion.div>
+               <h2 className="text-2xl font-bold text-gray-900 mb-2 relative z-10 tracking-tight">Order Confirmed</h2>
+               <p className="text-gray-500 text-sm relative z-10 max-w-xs mx-auto">Thank you for your purchase. We've received your order and are processing it now.</p>
+           </div>
+           
+           {/* Order Details */}
+           <div className="px-6 pb-6 md:px-10 md:pb-10 bg-white relative z-10">
+              <div className="bg-gray-50/50 rounded-xl p-5 border border-gray-100 mb-6">
+                 <div className="space-y-3 text-sm">
+                    <div className="flex justify-between items-center">
+                       <span className="text-gray-500">Order number</span>
+                       <span className="font-semibold text-gray-900">{orderDetails?.orderNumber || "N/A"}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-gray-500">Date</span>
+                       <span className="font-semibold text-gray-900">{new Date().toLocaleDateString('en-GB')}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                       <span className="text-gray-500">Payment</span>
+                       <span className="text-green-600 font-semibold bg-green-50 px-2 py-0.5 rounded text-xs uppercase tracking-wide">Successful</span>
+                    </div>
+                 </div>
+                 
+                 <div className="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
+                    <span className="font-semibold text-gray-900">Total</span>
+                    <span className="font-bold text-lg text-blue-600">₹{(orderDetails?.total || 0).toLocaleString()}</span>
+                 </div>
+              </div>
 
-        <div className="mt-4">
-          <input name="email" placeholder="Email Address" onChange={handleChange} className="w-full border rounded p-2" />
-          {errors.email && <p className="text-red-600 text-sm">{errors.email}</p>}
-        </div>
+              <div className="space-y-4 mb-8">
+                 <h3 className="text-sm font-semibold text-gray-900 flex justify-between items-center">
+                   Items Ordered
+                   <span className="text-gray-500 font-normal">{orderDetails?.items?.length || 0} items</span>
+                 </h3>
+                 <div className="space-y-3 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
+                    {orderDetails?.items?.map((item, idx) => (
+                       <div key={item?.id || idx} className="flex gap-3 items-center">
+                          <div className="w-12 h-12 bg-gray-50 rounded-lg p-1.5 flex items-center justify-center shrink-0 border border-gray-100">
+                            <img src={item?.image || "/placeholder.jpg"} alt={item?.title || "Item"} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                             <p className="font-medium text-gray-900 text-sm truncate">{item?.title || "Product"}</p>
+                             <p className="text-gray-500 text-xs mt-0.5">Qty: {item?.quantity || 1}</p>
+                          </div>
+                          <div className="font-medium text-gray-900 text-sm shrink-0">₹{getNumericPrice(item?.price || 0).toLocaleString()}</div>
+                       </div>
+                    ))}
+                 </div>
+              </div>
 
-        <div className="mt-4">
-          <input name="address" placeholder="Street Address" onChange={handleChange} className="w-full border rounded p-2" />
-          {errors.address && <p className="text-red-600 text-sm">{errors.address}</p>}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <div>
-            <input name="city" placeholder="City" onChange={handleChange} className="border rounded p-2 w-full" />
-            {errors.city && <p className="text-red-600 text-sm">{errors.city}</p>}
-          </div>
-          <div>
-            <input name="postalCode" placeholder="Postal Code" onChange={handleChange} className="border rounded p-2 w-full" />
-            {errors.postalCode && <p className="text-red-600 text-sm">{errors.postalCode}</p>}
-          </div>
-        </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                 <button onClick={() => navigate("/")} className="flex-1 flex items-center justify-center bg-white border border-gray-200 text-gray-700 py-3 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors focus:ring-2 focus:ring-gray-200 focus:outline-none">
+                   Return to Home
+                 </button>
+                 <button onClick={() => navigate("/products")} className="flex-1 flex items-center justify-center bg-blue-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm hover:shadow focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                   Continue Shopping
+                 </button>
+              </div>
+           </div>
+        </motion.div>
       </div>
+    );
+  }
 
-      {/* 🛍️ Order Summary */}
-      <div className="md:w-1/2 bg-gray-50 p-6 rounded shadow mt-10 md:mt-0">
-        <h2 className="text-2xl font-bold mb-6 border-b pb-2">Order Summary</h2>
+  return (
+    <div className="min-h-screen bg-gray-50/50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight mb-8">Checkout</h1>
 
-        <div className="text-sm mb-4">
-          <div className="flex justify-between"><span>Subtotal</span><span>₹{subtotal.toLocaleString()}</span></div>
-          <div className="flex justify-between border-b pb-2 mt-2"><span>Shipping</span><span className="text-green-600 font-medium">Free Shipping</span></div>
-          <div className="flex justify-between font-bold mt-2"><span>Total</span><span>₹{total.toLocaleString()}</span></div>
-        </div>
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* 🏠 Shipping Address */}
+          <div className="flex-1">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+              <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-blue-600" />
+                Shipping Details
+              </h2>
 
-        <div className="mt-6 border-t pt-4 space-y-4 max-h-64 overflow-y-auto">
-          {cart.map((item) => (
-            <div key={item.id} className="flex gap-4">
-              <img src={item.image} alt={item.title} className="w-20 h-20 object-cover rounded" />
-              <div className="text-sm">
-                <p className="font-medium text-gray-800">{item.title}</p>
-                <p className="text-red-600">₹{getNumericPrice(item.price).toLocaleString()} × {item.quantity}</p>
+              <div className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
+                    <input name="firstName" placeholder="First Name" onChange={handleChange} className={`block w-full rounded-xl border ${errors.firstName ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-500'} px-4 py-3 text-sm transition-colors bg-gray-50/50 focus:bg-white outline-none focus:ring-2 focus:ring-offset-0`} />
+                    {errors.firstName && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.firstName}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Last Name</label>
+                    <input name="lastName" placeholder="Last Name" onChange={handleChange} className={`block w-full rounded-xl border ${errors.lastName ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-500'} px-4 py-3 text-sm transition-colors bg-gray-50/50 focus:bg-white outline-none focus:ring-2 focus:ring-offset-0`} />
+                    {errors.lastName && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.lastName}</p>}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Mobile Number</label>
+                    <input name="mobileNumber" placeholder="Mobile Number" onChange={handleChange} className={`block w-full rounded-xl border ${errors.mobileNumber ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-500'} px-4 py-3 text-sm transition-colors bg-gray-50/50 focus:bg-white outline-none focus:ring-2 focus:ring-offset-0`} />
+                    {errors.mobileNumber && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.mobileNumber}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Email Address <span className="text-gray-400 font-normal">(Optional)</span></label>
+                    <input name="email" type="email" placeholder="Email Address" onChange={handleChange} className={`block w-full rounded-xl border ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-500'} px-4 py-3 text-sm transition-colors bg-gray-50/50 focus:bg-white outline-none focus:ring-2 focus:ring-offset-0`} />
+                    {errors.email && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.email}</p>}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Street Address</label>
+                  <input name="address" placeholder="Street Address" onChange={handleChange} className={`block w-full rounded-xl border ${errors.address ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-500'} px-4 py-3 text-sm transition-colors bg-gray-50/50 focus:bg-white outline-none focus:ring-2 focus:ring-offset-0`} />
+                  {errors.address && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.address}</p>}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">City</label>
+                    <input name="city" placeholder="City" onChange={handleChange} className={`block w-full rounded-xl border ${errors.city ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-500'} px-4 py-3 text-sm transition-colors bg-gray-50/50 focus:bg-white outline-none focus:ring-2 focus:ring-offset-0`} />
+                    {errors.city && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.city}</p>}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Pin Code</label>
+                    <input name="postalCode" placeholder="Pin Code" onChange={handleChange} className={`block w-full rounded-xl border ${errors.postalCode ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-blue-500 focus:ring-blue-500'} px-4 py-3 text-sm transition-colors bg-gray-50/50 focus:bg-white outline-none focus:ring-2 focus:ring-offset-0`} />
+                    {errors.postalCode && <p className="text-red-500 text-xs mt-1.5 font-medium">{errors.postalCode}</p>}
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <button onClick={handlePlaceOrder} className="w-full mt-6 bg-orange-600 hover:bg-orange-700 text-white py-3 font-semibold rounded transition">
-          Pay & Place Order
-        </button>
+          {/* 🛍️ Order Summary */}
+          <div className="w-full lg:w-[400px] xl:w-[450px]">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 sticky top-24">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+
+              {/* Items List */}
+              <div className="mb-6 space-y-4 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
+                {cart.map((item) => (
+                  <div key={item.id} className="flex gap-4 items-center">
+                    <div className="w-16 h-16 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-center shrink-0 overflow-hidden p-2">
+                      <img src={item.image} alt={item.title} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-gray-900 text-sm truncate">{item.title}</p>
+                      <p className="text-gray-500 text-xs mt-0.5">Qty: {item.quantity}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="font-bold text-gray-900 text-sm">₹{getNumericPrice(item.price).toLocaleString()}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Totals */}
+              <div className="space-y-4 text-sm text-gray-600 mb-6 border-t border-gray-100 pt-6">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Subtotal</span>
+                  <span className="font-semibold text-gray-900 text-base">₹{subtotal.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+                  <span className="font-medium">Shipping estimate</span>
+                  <span className="font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded text-xs">Free</span>
+                </div>
+                <div className="flex justify-between items-end pt-2">
+                  <div>
+                    <span className="block text-base font-bold text-gray-900">Total</span>
+                    <span className="text-xs text-gray-500 mt-0.5 block">Including taxes</span>
+                  </div>
+                  <span className="text-2xl font-bold text-gray-900 tracking-tight">₹{total.toLocaleString()}</span>
+                </div>
+              </div>
+
+              <button
+                onClick={handlePlaceOrder}
+                className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                <CreditCard className="w-5 h-5" />
+                Pay & Place Order
+              </button>
+
+              <div className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-500 font-medium">
+                <ShieldCheck size={18} className="text-green-500" />
+                Payments secured by Razorpay
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

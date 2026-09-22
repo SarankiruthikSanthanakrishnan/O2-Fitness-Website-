@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Edit, Trash2, Eye, EyeOff, Plus, Upload } from "lucide-react";
+import { ArrowLeft, Edit, Trash2, Eye, EyeOff, Plus, Upload, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "/src/Components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "/src/Components/ui/card";
 import { Input } from "/src/Components/ui/input";
@@ -54,12 +54,20 @@ export default function CategoryList() {
 
   // ✅ Fetch Categories in real-time
   useEffect(() => {
-    const q = query(collection(db, "categories"), orderBy("createdAt"));
+    const q = query(collection(db, "categories"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+      data.sort((a, b) => {
+        const orderA = typeof a.sortOrder === "number" ? a.sortOrder : 999999;
+        const orderB = typeof b.sortOrder === "number" ? b.sortOrder : 999999;
+        if (orderA !== orderB) return orderA - orderB;
+        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+        return timeA - timeB; // Ascending by createdAt
+      });
       setCategories(data);
     });
     return () => unsubscribe();
@@ -137,6 +145,36 @@ export default function CategoryList() {
     });
   };
 
+  // ✅ Move Category Up/Down
+  const handleMoveCategory = async (index, direction) => {
+    if (
+      (direction === "up" && index === 0) ||
+      (direction === "down" && index === categories.length - 1)
+    ) return;
+
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+    const newCategories = [...categories];
+    
+    // Swap items in array
+    const temp = newCategories[index];
+    newCategories[index] = newCategories[newIndex];
+    newCategories[newIndex] = temp;
+    
+    // Optimistic update
+    setCategories(newCategories);
+
+    // Save to Firestore by updating sortOrder for all to ensure consistency
+    try {
+      const updates = newCategories.map((cat, i) => {
+        return updateDoc(doc(db, "categories", cat.id), { sortOrder: i });
+      });
+      await Promise.all(updates);
+    } catch (err) {
+      console.error(err);
+      toast({ title: "❌ Failed to update order", variant: "destructive" });
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -194,13 +232,33 @@ export default function CategoryList() {
           <CardTitle>Categories</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <div
               key={category.id}
               className="flex items-center justify-between border rounded-lg p-4 shadow-sm bg-background"
             >
-              {/* Image + Name */}
+              {/* Order Controls + Image + Name */}
               <div className="flex items-center gap-4">
+                <div className="flex flex-col items-center">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 text-gray-500 hover:text-gray-900 disabled:opacity-30"
+                    onClick={() => handleMoveCategory(index, "up")}
+                    disabled={index === 0}
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 text-gray-500 hover:text-gray-900 disabled:opacity-30"
+                    onClick={() => handleMoveCategory(index, "down")}
+                    disabled={index === categories.length - 1}
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </div>
                 <img
                   src={category.image}
                   alt={category.name}

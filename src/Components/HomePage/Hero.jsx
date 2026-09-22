@@ -43,81 +43,99 @@ const Hero = () => {
   const slide = slides[currentSlide];
 
   return (
-    <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[90vh] overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={slide.id}
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${slide.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-          >
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent md:to-black/30" />
-          </motion.div>
-        </AnimatePresence>
-      </div>
+    <section className="relative w-full h-[60vh] sm:h-[70vh] md:h-[90vh] overflow-hidden bg-gray-950">
+      {/* Background Image with AnimatePresence */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={slide.id}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${slide.image})`,
+          }}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+        >
+          {/* Refined Gradient Overlay for better contrast */}
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-900/60 to-gray-900/20" />
+        </motion.div>
+      </AnimatePresence>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex items-center justify-center h-full text-center px-4 sm:px-6 md:px-8">
-        <motion.div
-          className="max-w-3xl text-white"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
+      <div className="relative z-10 flex items-center justify-center h-full px-4 sm:px-6 md:px-12 lg:px-24">
+        <div className="max-w-4xl text-center flex flex-col items-center">
           {/* Subtitle */}
-          <p className="uppercase tracking-widest text-xs sm:text-sm md:text-base text-orange-400 font-medium mb-3 sm:mb-4">
-            {slide.subtitle}
-          </p>
+          <motion.div
+            key={`sub-${slide.id}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-4"
+          >
+            <span className="px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase">
+              {slide.subtitle || "Premium Wellness"}
+            </span>
+          </motion.div>
 
           {/* Title */}
-          <h1
-            className="font-bold mb-4 sm:mb-6 leading-tight
-                       text-2xl sm:text-3xl md:text-5xl lg:text-6xl"
+          <motion.h1
+            key={`title-${slide.id}`}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-white font-extrabold mb-6 leading-[1.1] text-3xl sm:text-4xl md:text-5xl lg:text-7xl tracking-tight"
           >
             {slide.title}
-          </h1>
+          </motion.h1>
 
           {/* Description */}
-          <p
-            className="text-gray-200 mx-auto leading-relaxed
-                       text-xs sm:text-sm md:text-lg mb-6 sm:mb-8
-                       max-w-sm sm:max-w-xl md:max-w-2xl"
+          <motion.p
+            key={`desc-${slide.id}`}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-gray-300 mx-auto leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl mb-8 sm:mb-10"
           >
             {slide.description}
-          </p>
+          </motion.p>
 
           {/* CTA Button */}
-          <Link to={slide.buttonLink || "/shop"}>
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-orange-500 to-red-500 text-white
-                         text-sm sm:text-base md:text-lg px-6 sm:px-8 py-3 sm:py-4
-                         rounded-full shadow-lg hover:shadow-orange-300/50 hover:scale-105 transition"
-            >
-              {slide.buttonText || "Explore Now"}
-            </Button>
-          </Link>
-        </motion.div>
+          <motion.div
+            key={`btn-${slide.id}`}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <Link to={slide.buttonLink || "/products"}>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white text-sm sm:text-base md:text-lg px-6 py-4 md:px-8 md:py-6 rounded-full shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transition-all hover:-translate-y-1 group"
+              >
+                {slide.buttonText || "Explore Collection"}
+                <svg
+                  className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-3 sm:bottom-5 left-1/2 transform -translate-x-1/2 flex gap-2 sm:gap-3">
+      {/* Modern Slide Indicators */}
+      <div className="absolute bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2 flex gap-3">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition ${
-              currentSlide === index ? "bg-orange-500" : "bg-white/50"
+            aria-label={`Go to slide ${index + 1}`}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              currentSlide === index ? "w-8 bg-orange-500" : "w-3 bg-white/40 hover:bg-white/60"
             }`}
           />
         ))}

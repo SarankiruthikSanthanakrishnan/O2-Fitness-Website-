@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
-import { CategoryNavigation } from "./CategoryNavigation";
 import { FilterSidebar } from "./FilterSidebar";
 import { ProductGrid } from "./ProductGrid";
 import { PromoBanner } from "./PromoBanner";
@@ -58,10 +57,6 @@ export default function ProductListing() {
       <PromoBanner />
 
       <div className="container mx-auto px-4 py-8">
-        <CategoryNavigation
-          selectedCategory={selectedCategory}
-          onCategoryChange={handleCategoryChange}
-        />
 
         {/* 🔹 Mobile Filter Button */}
         <div className="lg:hidden flex justify-end mb-4">
@@ -123,6 +118,7 @@ export default function ProductListing() {
             <ProductGrid
               selectedCategory={selectedCategory}
               filters={filters}
+              onCategoryChange={handleCategoryChange}
             />
           </div>
         </div>

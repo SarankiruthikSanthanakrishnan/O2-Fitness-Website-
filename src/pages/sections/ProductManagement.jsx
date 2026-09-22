@@ -7,7 +7,11 @@ import {
   Trash,
   Package,
   Search,
+  GripVertical,
+  Save,
+  ListOrdered
 } from "lucide-react";
+import { useToast } from "/src/hooks/use-toast";
 import {
   Dialog,
   DialogContent,
@@ -37,7 +41,6 @@ import {
   doc,
   Timestamp,
   onSnapshot,
-  orderBy,
   query,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -81,6 +84,12 @@ const ProductManagement = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
+  
+  // Custom Ordering State
+  const [isReordering, setIsReordering] = useState(false);
+  const [draggedItem, setDraggedItem] = useState(null);
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
+  const { toast } = useToast();
 
   // Filters
   const [searchTerm, setSearchTerm] = useState("");
@@ -119,9 +128,21 @@ const ProductManagement = () => {
 
   // ✅ Fetch products
   useEffect(() => {
-    const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+    const q = query(collection(db, "products"));
     const unsub = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      
+      // Sort by sortOrder (asc), fallback to createdAt (desc)
+      data.sort((a, b) => {
+        const orderA = typeof a.sortOrder === 'number' ? a.sortOrder : 999999;
+        const orderB = typeof b.sortOrder === 'number' ? b.sortOrder : 999999;
+        if (orderA !== orderB) return orderA - orderB;
+        
+        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+        return timeB - timeA;
+      });
+      
       setProducts(data);
       setFiltered(data);
     });
@@ -157,6 +178,39 @@ const ProductManagement = () => {
     }
     setFiltered(result);
   }, [searchTerm, categoryFilter, stockFilter, products]);
+
+  // ✅ Drag and Drop Handlers
+  const handleDragStart = (e, index) => {
+    setDraggedItem(index);
+    e.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragEnter = (e, index) => {
+    e.preventDefault();
+    if (draggedItem === index || draggedItem === null) return;
+    const newItems = [...filtered];
+    const item = newItems.splice(draggedItem, 1)[0];
+    newItems.splice(index, 0, item);
+    setDraggedItem(index);
+    setFiltered(newItems);
+  };
+
+  const saveCustomOrder = async () => {
+    setIsSavingOrder(true);
+    try {
+      const updates = filtered.map((p, index) => {
+        return updateDoc(doc(db, "products", p.id), { sortOrder: index });
+      });
+      await Promise.all(updates);
+      toast({ title: "✅ Order Saved successfully" });
+      setIsReordering(false);
+    } catch (error) {
+      console.error("Error saving order:", error);
+      toast({ title: "❌ Failed to save order", variant: "destructive" });
+    } finally {
+      setIsSavingOrder(false);
+    }
+  };
 
   const handleInputChange = (key, value) =>
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -279,13 +333,25 @@ const ProductManagement = () => {
           </p>
         </div>
 
-        {/* Add/Edit Product Dialog */}
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={resetForm}>
-              <Plus className="h-4 w-4 mr-2" /> Add Product
+        <div className="flex gap-2 items-center flex-wrap">
+          {/* Reorder Button */}
+          {isReordering ? (
+            <Button onClick={saveCustomOrder} disabled={isSavingOrder} className="bg-green-600 hover:bg-green-700 text-white">
+              <Save className="h-4 w-4 mr-2" /> {isSavingOrder ? "Saving..." : "Save Order"}
             </Button>
-          </DialogTrigger>
+          ) : (
+            <Button variant="outline" onClick={() => setIsReordering(true)}>
+              <ListOrdered className="h-4 w-4 mr-2" /> Reorder Products
+            </Button>
+          )}
+
+          {/* Add/Edit Product Dialog */}
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button onClick={resetForm}>
+                <Plus className="h-4 w-4 mr-2" /> Add Product
+              </Button>
+            </DialogTrigger>
 
           <DialogContent
             className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white"
@@ -621,6 +687,7 @@ const ProductManagement = () => {
             </form>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {/* ✅ Filters */}
@@ -661,12 +728,38 @@ const ProductManagement = () => {
         </Select>
       </div>
 
-      {/* ✅ Product Grid */}
+      {/* ✅ Product Grid / Reorder List */}
       <div>
         {filtered.length === 0 ? (
           <div className="text-center py-12 text-gray-500">
             <Package className="mx-auto h-12 w-12 mb-3" />
             <p>No products found.</p>
+          </div>
+        ) : isReordering ? (
+          <div className="space-y-2">
+            {filtered.map((product, index) => (
+              <div
+                key={product.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragEnter={(e) => handleDragEnter(e, index)}
+                onDragOver={(e) => e.preventDefault()}
+                onDragEnd={() => setDraggedItem(null)}
+                className={`flex items-center gap-4 bg-white border p-3 rounded-lg shadow-sm cursor-grab active:cursor-grabbing transition-opacity ${draggedItem === index ? "opacity-50 border-orange-500" : ""}`}
+              >
+                <GripVertical className="text-gray-400 h-5 w-5 flex-shrink-0" />
+                <img
+                  src={product.images?.[0] || "https://via.placeholder.com/40x40?text=No+Image"}
+                  alt={product.title}
+                  className="w-12 h-12 rounded object-cover flex-shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-gray-900 truncate">{product.title}</h3>
+                  <p className="text-sm text-gray-500 truncate">{product.category || "-"}</p>
+                </div>
+                <div className="font-semibold text-gray-700 whitespace-nowrap">₹{product.price}</div>
+              </div>
+            ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">

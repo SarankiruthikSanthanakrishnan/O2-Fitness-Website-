@@ -10,6 +10,14 @@ export function CategoryNavigation({ selectedCategory, onCategoryChange }) {
   useEffect(() => {
     const unsub = onSnapshot(collection(db, "categories"), (snapshot) => {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      data.sort((a, b) => {
+        const orderA = typeof a.sortOrder === "number" ? a.sortOrder : 999999;
+        const orderB = typeof b.sortOrder === "number" ? b.sortOrder : 999999;
+        if (orderA !== orderB) return orderA - orderB;
+        const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+        const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+        return timeA - timeB;
+      });
       setCategories(data.filter((c) => !c.isHidden));
     });
     return () => unsub();

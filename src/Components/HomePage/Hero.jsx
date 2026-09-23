@@ -135,7 +135,7 @@ const Hero = () => {
               </div>
 
               {/* 4 Feature Badges */}
-              <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-12">
+              <div className="grid grid-cols-2 gap-4 sm:flex sm:flex-wrap sm:gap-x-8 sm:gap-y-4 mb-12">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-[#FFF3E8] flex items-center justify-center text-[#F25C05]">
                     <Flower2 className="w-5 h-5" />
@@ -232,20 +232,20 @@ const Hero = () => {
             </div>
 
             {/* Right Content (Image & Floating Elements) */}
-            <div className="w-full lg:w-[45%] relative mt-10 lg:mt-0">
-              <div className="relative w-full h-[500px] sm:h-[600px] flex items-center justify-center">
+            <div className="w-full lg:w-[45%] relative mt-8 lg:mt-0">
+              <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] flex items-center justify-center">
                 {/* Background Decor */}
                 <div className="absolute inset-0 z-0 flex items-center justify-center">
                   {/* Arch background */}
-                  <div className="absolute w-[80%] h-full bg-[#FFFFFF] rounded-t-[300px] bottom-0 z-0 shadow-sm border border-gray-100"></div>
+                  <div className="absolute w-[95%] md:w-[80%] h-[95%] md:h-full bg-[#FFFFFF] rounded-t-[300px] bottom-0 z-0 shadow-sm border border-gray-100"></div>
                 </div>
 
                 {/* Main Image on a subtle pedestal/shadow */}
-                <div className="relative z-10 flex flex-col items-center">
+                <div className="relative z-10 flex flex-col items-center w-full">
                   <img
                     src={slide.image}
                     alt={slide.title}
-                    className="w-full h-auto object-contain max-h-[550px] scale-110 md:scale-125 origin-bottom"
+                    className="w-full h-auto object-contain max-h-[350px] sm:max-h-[450px] lg:max-h-[550px] scale-110 md:scale-125 origin-bottom"
                     style={{
                       WebkitMaskImage:
                         'linear-gradient(to right, transparent 0%, black 25%, black 100%)',
@@ -256,9 +256,9 @@ const Hero = () => {
                 </div>
 
                 {/* Handwritten Text - Top Right */}
-                <div className="absolute top-0 -right-4 md:-right-8 z-20 transform -rotate-6">
+                <div className="absolute -top-6 right-2 md:top-0 md:-right-8 z-20 transform -rotate-6">
                   <span
-                    className="text-3xl md:text-4xl text-gray-800 leading-tight block"
+                    className="text-2xl md:text-4xl text-gray-800 leading-tight block"
                     style={{
                       fontFamily: "'Caveat', 'Dancing Script', cursive, serif",
                       fontStyle: 'italic',
@@ -271,15 +271,15 @@ const Hero = () => {
                 </div>
 
                 {/* Circular Badge - Top Left */}
-                <div className="absolute top-8 left-0 md:-left-12 z-20 w-36 h-36 bg-[#FDFBF9] rounded-full border-4 border-[#EEDFCE] shadow-xl flex flex-col items-center justify-center text-center p-2 transform -rotate-12 hover:rotate-0 transition-transform duration-500">
-                  <span className="text-[11px] font-bold text-gray-600 tracking-[0.15em] mb-1">
+                <div className="absolute top-2 left-2 md:top-8 md:-left-12 z-20 w-24 h-24 md:w-36 md:h-36 bg-[#FDFBF9] rounded-full border-[3px] md:border-4 border-[#EEDFCE] shadow-xl flex flex-col items-center justify-center text-center p-1 md:p-2 transform -rotate-12 hover:rotate-0 transition-transform duration-500">
+                  <span className="text-[8px] md:text-[11px] font-bold text-gray-600 tracking-[0.15em] mb-0.5 md:mb-1">
                     O2 FITNESS
                   </span>
-                  <span className="text-4xl font-serif text-gray-900 leading-none mb-1">
+                  <span className="text-2xl md:text-4xl font-serif text-gray-900 leading-none mb-0.5 md:mb-1">
                     Z90
                   </span>
-                  <div className="w-10 h-[2px] bg-[#F25C05] my-1.5"></div>
-                  <span className="text-[9px] font-bold text-[#F25C05] tracking-widest leading-tight">
+                  <div className="w-6 md:w-10 h-[1.5px] md:h-[2px] bg-[#F25C05] my-1 md:my-1.5"></div>
+                  <span className="text-[6px] md:text-[9px] font-bold text-[#F25C05] tracking-widest leading-tight">
                     PREMIUM
                     <br />
                     MASSAGE CHAIR
@@ -287,34 +287,34 @@ const Hero = () => {
                 </div>
 
                 {/* Floating Feature Badges - Left Side */}
-                <div className="absolute left-0 md:-left-16 top-1/2 -translate-y-1/3 flex flex-col gap-4 z-20">
-                  <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pr-5 p-2 rounded-full shadow-lg border border-gray-100 hover:scale-105 transition-transform cursor-default">
-                    <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center shadow-sm">
-                      <User className="w-5 h-5 text-gray-800" />
+                <div className="absolute left-2 md:-left-16 top-1/2 -translate-y-1/3 flex flex-col gap-2 md:gap-4 z-20 scale-90 md:scale-100 origin-left">
+                  <div className="flex items-center gap-2 md:gap-3 bg-white/90 backdrop-blur-md pr-4 md:pr-5 p-1.5 md:p-2 rounded-full shadow-lg border border-gray-100 hover:scale-105 transition-transform cursor-default">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-full flex items-center justify-center shadow-sm">
+                      <User className="w-4 h-4 md:w-5 md:h-5 text-gray-800" />
                     </div>
-                    <span className="text-xs font-bold text-gray-800 leading-tight">
+                    <span className="text-[10px] md:text-xs font-bold text-gray-800 leading-tight">
                       Full Body
                       <br />
                       <span className="font-medium text-gray-500">Massage</span>
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pr-5 p-2 rounded-full shadow-lg border border-gray-100 hover:scale-105 transition-transform cursor-default translate-x-4">
-                    <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center shadow-sm">
-                      <Flame className="w-5 h-5 text-gray-800" />
+                  <div className="flex items-center gap-2 md:gap-3 bg-white/90 backdrop-blur-md pr-4 md:pr-5 p-1.5 md:p-2 rounded-full shadow-lg border border-gray-100 hover:scale-105 transition-transform cursor-default translate-x-3 md:translate-x-4">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-full flex items-center justify-center shadow-sm">
+                      <Flame className="w-4 h-4 md:w-5 md:h-5 text-gray-800" />
                     </div>
-                    <span className="text-xs font-bold text-gray-800 leading-tight">
+                    <span className="text-[10px] md:text-xs font-bold text-gray-800 leading-tight">
                       Heat
                       <br />
                       <span className="font-medium text-gray-500">Therapy</span>
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pr-5 p-2 rounded-full shadow-lg border border-gray-100 hover:scale-105 transition-transform cursor-default">
-                    <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center shadow-sm">
-                      <Wind className="w-5 h-5 text-gray-800" />
+                  <div className="flex items-center gap-2 md:gap-3 bg-white/90 backdrop-blur-md pr-4 md:pr-5 p-1.5 md:p-2 rounded-full shadow-lg border border-gray-100 hover:scale-105 transition-transform cursor-default">
+                    <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-full flex items-center justify-center shadow-sm">
+                      <Wind className="w-4 h-4 md:w-5 md:h-5 text-gray-800" />
                     </div>
-                    <span className="text-xs font-bold text-gray-800 leading-tight">
+                    <span className="text-[10px] md:text-xs font-bold text-gray-800 leading-tight">
                       Zero Gravity
                       <br />
                       <span className="font-medium text-gray-500">Comfort</span>

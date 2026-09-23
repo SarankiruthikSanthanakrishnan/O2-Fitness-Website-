@@ -1,32 +1,32 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.2, ease: "easeOut" },
+    transition: { duration: 0.6, delay: i * 0.2, ease: 'easeOut' },
   }),
 };
 
 const WhyChoose = () => {
   const cards = [
     {
-      title: "Advanced Technology",
-      text: "Experience 3D, 4D, and 6D massage systems, Zero Gravity, heat therapy, and AI body scan features.",
+      title: 'Advanced Technology',
+      text: 'Experience 3D, 4D, and 6D massage systems, Zero Gravity, heat therapy, and AI body scan features.',
     },
     {
-      title: "Free Delivery & Service",
-      text: "Enjoy doorstep delivery and after-sales service in major cities at no extra cost.",
+      title: 'Free Delivery & Service',
+      text: 'Enjoy doorstep delivery and after-sales service in major cities at no extra cost.',
     },
     {
-      title: "1-Year Guarantee + 5-Year Warranty",
-      text: "Buy with confidence knowing your comfort is protected long after your purchase.",
+      title: '1-Year Guarantee + 5-Year Warranty',
+      text: 'Buy with confidence knowing your comfort is protected long after your purchase.',
     },
     {
-      title: "Free Door Delivery Across India",
-      text: "Enjoy fast and reliable delivery at no extra cost.",
+      title: 'Free Door Delivery Across India',
+      text: 'Enjoy fast and reliable delivery at no extra cost.',
     },
   ];
 
@@ -52,18 +52,21 @@ const WhyChoose = () => {
             variants={fadeUp}
             custom={0.2}
           >
-            Expertly engineered wellness solutions backed by trust, technology, and care.
+            Expertly engineered wellness solutions backed by trust, technology,
+            and care.
           </motion.h3>
           <motion.p
             className="text-sm md:text-base text-gray-700 leading-loose mb-1"
             variants={fadeUp}
             custom={0.4}
           >
-            At O2 Fitness Healthcare, we go beyond just selling products — we deliver wellness
-            experiences. Our massage chairs and fitness solutions are crafted using intelligent
-            technology, quality materials, and decades of industry insight. With nationwide service,
-            free delivery, and a customer-first approach, we're committed to helping you feel better,
-            move better, and live better — every single day.
+            At O2 Fitness Healthcare, we go beyond just selling products — we
+            deliver wellness experiences. Our massage chairs and fitness
+            solutions are crafted using intelligent technology, quality
+            materials, and decades of industry insight. With nationwide service,
+            free delivery, and a customer-first approach, we're committed to
+            helping you feel better, move better, and live better — every single
+            day.
           </motion.p>
         </div>
       </motion.div>
@@ -88,8 +91,12 @@ const WhyChoose = () => {
                     variants={fadeUp}
                     custom={index * 0.3}
                   >
-                    <h4 className="text-base md:text-lg font-bold mb-2">{card.title}</h4>
-                    <p className="text-xs md:text-sm text-gray-700">{card.text}</p>
+                    <h4 className="text-base md:text-lg font-bold mb-2">
+                      {card.title}
+                    </h4>
+                    <p className="text-xs md:text-sm text-gray-700">
+                      {card.text}
+                    </p>
                   </motion.div>
 
                   {/* Divider (skip after last card) */}

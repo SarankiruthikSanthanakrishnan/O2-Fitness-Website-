@@ -1,78 +1,78 @@
-import React from "react";
+import React from 'react';
 
 const REVIEWS = [
   // Left column
   {
     quote:
-      "The O2 Supreme Massage Chair is pure bliss! I use it every evening after work — it relieves all my back tension and improves sleep quality. Definitely worth every rupee.",
-    name: "Priya",
-    user: "Chennai",
+      'The O2 Supreme Massage Chair is pure bliss! I use it every evening after work — it relieves all my back tension and improves sleep quality. Definitely worth every rupee.',
+    name: 'Priya',
+    user: 'Chennai',
   },
   {
     quote:
-      "I surprised my parents with the O2 Comfort Recliner. They absolutely love it — the zero-gravity mode is their favourite. Delivery and installation were smooth too.",
-    name: "Ramesh",
-    user: "Coimbatore",
+      'I surprised my parents with the O2 Comfort Recliner. They absolutely love it — the zero-gravity mode is their favourite. Delivery and installation were smooth too.',
+    name: 'Ramesh',
+    user: 'Coimbatore',
   },
   {
     quote:
-      "After comparing many brands, I chose O2 Wellness Pro. The build quality, leather finish, and massage accuracy are exceptional. It’s like having a spa at home.",
-    name: "Vivek Sharma",
-    user: "Bangalore",
+      'After comparing many brands, I chose O2 Wellness Pro. The build quality, leather finish, and massage accuracy are exceptional. It’s like having a spa at home.',
+    name: 'Vivek Sharma',
+    user: 'Bangalore',
   },
 
   // Center stack
   {
     quote:
-      "The leg and shoulder massage programs are incredibly relaxing. I can even control everything with the mobile app! Truly advanced technology with a human touch.",
-    name: "Meera Joseph",
-    user: "Hyderabad",
+      'The leg and shoulder massage programs are incredibly relaxing. I can even control everything with the mobile app! Truly advanced technology with a human touch.',
+    name: 'Meera Joseph',
+    user: 'Hyderabad',
   },
   {
     quote:
-      "Being a software engineer, I sit for long hours. The O2 4D RelaxMax has reduced my back pain drastically. Excellent investment for long-term wellness.",
-    name: "Harish Kumar",
-    user: "Pune",
+      'Being a software engineer, I sit for long hours. The O2 4D RelaxMax has reduced my back pain drastically. Excellent investment for long-term wellness.',
+    name: 'Harish Kumar',
+    user: 'Pune',
   },
   {
     quote:
-      "I’ve tried chairs abroad, but O₂’s models match the same quality at half the price. Their customer service in India is fast and reliable — highly recommended!",
-    name: "Sneha Patel",
-    user: "Mumbai",
+      'I’ve tried chairs abroad, but O₂’s models match the same quality at half the price. Their customer service in India is fast and reliable — highly recommended!',
+    name: 'Sneha Patel',
+    user: 'Mumbai',
   },
   {
     quote:
-      "Every evening my whole family takes turns using the chair. It adjusts automatically to each person’s height and posture. Truly intelligent design!",
-    name: "Deepak Nair",
-    user: "Kochi",
+      'Every evening my whole family takes turns using the chair. It adjusts automatically to each person’s height and posture. Truly intelligent design!',
+    name: 'Deepak Nair',
+    user: 'Kochi',
   },
 
   // Right column
   {
     quote:
-      "Loved the overall service experience. The technician installed it the same day and explained every feature clearly. The foot rollers are my favourite part!",
-    name: "Anjali Verma",
-    user: "Delhi",
+      'Loved the overall service experience. The technician installed it the same day and explained every feature clearly. The foot rollers are my favourite part!',
+    name: 'Anjali Verma',
+    user: 'Delhi',
   },
   {
     quote:
-      "I got the O2 Compact model for my small apartment — surprisingly powerful! It fits perfectly in the corner and looks stylish too.",
-    name: "Sanjay Rao",
-    user: "Ahmedabad",
+      'I got the O2 Compact model for my small apartment — surprisingly powerful! It fits perfectly in the corner and looks stylish too.',
+    name: 'Sanjay Rao',
+    user: 'Ahmedabad',
   },
   {
     quote:
-      "It’s been six months since purchase — still running smoothly. My stress levels have gone down, and even guests ask where I bought it from!",
-    name: "Lakshmi Priyan",
-    user: "Trichy",
+      'It’s been six months since purchase — still running smoothly. My stress levels have gone down, and even guests ask where I bought it from!',
+    name: 'Lakshmi Priyan',
+    user: 'Trichy',
   },
 ];
 
 const HERO = {
   quote:
-    "Buying my O2 Elite Massage Chair was one of the best decisions I’ve ever made. It combines luxury, comfort, and technology so perfectly that it feels like having a personal spa therapist at home. My chronic neck pain is now gone — and relaxation is just one button away.",
-  rightBadge: "O2 Fitness Healthcare",
-  name: "Mohan Raj",
+    'Buying my O2 Elite Massage Chair was one of the best decisions I’ve ever made. It combines luxury, comfort, and technology so perfectly that it feels like having a personal spa therapist at home. My chronic neck pain is now gone — and relaxation is just one button away.',
+  rightBadge: 'O2 Fitness Healthcare',
+  name: 'Mohan Raj',
 };
 
 const ReviewCard = ({ quote, name, user }) => (

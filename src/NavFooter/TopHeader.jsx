@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { Button } from "/src/Components/ui/button";
-import Logo from "../assets/HomeImage/Logo.png";
-import Enquiry from "./Enquiry";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaSearch } from 'react-icons/fa';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { useSelector } from 'react-redux';
+import { Button } from '/src/Components/ui/button';
+import Logo from '../assets/HomeImage/O2Logo.png';
+import Enquiry from './Enquiry';
 import {
   getFirestore,
   collection,
   onSnapshot,
   query,
   orderBy,
-} from "firebase/firestore";
-import { app } from "../firebase/firebaseConfig";
+} from 'firebase/firestore';
+import { app } from '../firebase/firebaseConfig';
 
 const db = getFirestore(app);
 
 const TopHeader = () => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [showEnquiry, setShowEnquiry] = useState(false);
@@ -30,7 +30,7 @@ const TopHeader = () => {
 
   // ✅ Fetch products from Firestore
   useEffect(() => {
-    const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+    const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
     const unsub = onSnapshot(q, (snap) => {
       const data = snap.docs.map((doc) => ({
         id: doc.id,
@@ -43,7 +43,7 @@ const TopHeader = () => {
 
   // ✅ Filter search results
   useEffect(() => {
-    if (searchTerm.trim() === "") {
+    if (searchTerm.trim() === '') {
       setFiltered([]);
       return;
     }
@@ -55,19 +55,19 @@ const TopHeader = () => {
 
   // ✅ Navigate to Product Page
   const handleNavigateProduct = (product) => {
-    setSearchTerm("");
+    setSearchTerm('');
     setFiltered([]);
     const slug =
       product.title
         ?.toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "") || "product";
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'product';
     navigate(`/products/${slug}`);
   };
 
   // ✅ Handle Enter key
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && filtered.length > 0) {
+    if (e.key === 'Enter' && filtered.length > 0) {
       handleNavigateProduct(filtered[0]);
     }
   };
@@ -75,10 +75,9 @@ const TopHeader = () => {
   return (
     <div className="w-full border-b border-gray-200 bg-white px-4 py-3 shadow-sm">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 relative">
-
         {/* 🔹 Logo */}
         <Link to="/" className="flex-shrink-0">
-          <img src={Logo} alt="Logo" className="h-20 w-auto" />
+          <img src={Logo} alt="Logo" className="h-22 w-auto" />
         </Link>
 
         {/* 🔹 Search Bar */}
@@ -110,7 +109,7 @@ const TopHeader = () => {
                     src={
                       Array.isArray(product.images)
                         ? product.images[0]
-                        : product.images || "/placeholder.png"
+                        : product.images || '/placeholder.png'
                     }
                     alt={product.title}
                     className="w-12 h-12 object-cover rounded"

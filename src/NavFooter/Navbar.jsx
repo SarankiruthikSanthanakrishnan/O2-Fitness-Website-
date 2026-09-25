@@ -83,7 +83,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-[100] bg-white border-b border-gray-200 shadow-sm">
-      <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-8 py-2 md:py-2.5 flex items-center justify-between gap-4">
         {/* Left: Logo */}
         <Link
           to="/"
@@ -93,7 +93,7 @@ const Navbar = () => {
           <img
             src={Logo}
             alt="O2 Fitness Logo"
-            className="h-16 md:h-20 w-auto"
+            className="h-12 md:h-14 w-auto"
           />
         </Link>
 

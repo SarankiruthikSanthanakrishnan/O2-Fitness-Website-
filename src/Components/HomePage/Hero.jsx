@@ -106,7 +106,7 @@ const Hero = () => {
     <>
       {/* Handwritten Text */}
       <div
-        className={`absolute z-20 transform -rotate-[10deg] ${isDesktop ? 'top-[12%] right-[10%] xl:right-[15%]' : 'top-[74%] left-4 xs:left-8'}`}
+        className={`absolute z-20 transform -rotate-[10deg] ${isDesktop ? 'top-[12%] right-[10%] xl:right-[15%]' : 'top-[28%] right-8 xs:right-8'}`}
       >
         <div
           className="text-[22px] md:text-4xl lg:text-[35px] text-[#2C3E50] leading-[0.9] flex flex-col items-start"
@@ -134,17 +134,17 @@ const Hero = () => {
 
       {/* Circular Badge */}
       <div
-        className={`absolute z-20 rounded-full border border-[#FFF3E8] shadow-[0_8px_30px_rgb(0,0,0,0.15)] flex flex-col items-center justify-center text-center p-1.5 md:p-2 transition-transform duration-500 hover:scale-105 bg-gradient-to-br from-[#FDF1CB] via-[#E2B76D] to-[#FDF1CB] ${isDesktop ? 'top-[22%] right-[38%] xl:right-[42%] w-32 h-32 xl:w-40 xl:h-40' : 'top-[55%] left-6 xs:left-8 w-[90px] h-[90px]'}`}
+        className={`absolute z-20 rounded-full border border-[#FFF3E8] shadow-[0_8px_30px_rgb(0,0,0,0.15)] flex flex-col items-center justify-center text-center p-1.5 md:p-2 transition-transform duration-500 hover:scale-105 bg-gradient-to-br from-[#FDF1CB] via-[#E2B76D] to-[#FDF1CB] ${isDesktop ? 'top-[13%] right-[38%] xl:right-[42%] w-32 h-32 xl:w-40 xl:h-40' : 'top-[59%] left-6 xs:left-8 w-[90px] h-[90px]'}`}
       >
         <div className="w-full h-full rounded-full border border-[#C58B35] flex flex-col items-center justify-center pt-1.5">
-          <span className="text-[7px] md:text-[9px] font-serif text-[#4A3715] tracking-[0.15em] mb-0.5">
+          <span className="text-[6px] md:text-[12px] lg:text-[16px]  font-[inter] font-extrabold text-[#4A3715] tracking-[0.15em] mb-0.5">
             O2 CHAIRS
           </span>
-          <span className="text-[34px] md:text-5xl font-serif font-bold text-black leading-none mb-1 shadow-sm">
+          {/* <span className="text-[34px] md:text-5xl font-serif font-bold text-black leading-none mb-1 shadow-sm">
             Z90
-          </span>
+          </span> */}
           <div className="w-8 h-[1px] bg-[#C58B35] mb-1"></div>
-          <span className="text-[5px] md:text-[6px] font-bold text-[#4A3715] tracking-[0.15em] leading-[1.2]">
+          <span className="text-[10px] md:text-[8px] lg:text-[12px] font-bold text-[#4A3715] tracking-[0.15em] leading-[1.2]">
             PREMIUM
             <br />
             MASSAGE CHAIR
@@ -230,7 +230,7 @@ const Hero = () => {
             key={img}
             src={img}
             alt="Hero Background Desktop"
-            className={`w-full h-auto transition-opacity duration-1000 ease-in-out ${
+            className={`w-full h-auto md:h-[90vh] object-cover transition-opacity duration-1000 ease-in-out ${
               idx === 0 ? 'relative' : 'absolute top-0 left-0'
             } ${currentImage === img ? 'opacity-100' : 'opacity-0'}`}
           />
@@ -281,21 +281,14 @@ const Hero = () => {
                     "At O2 Fitness Healthcare, we bring the spa experience to your home with premium massage chairs. Whether you're easing pain or reducing stress — we've got your back."}
                 </p>
 
-                {/* Buttons */}
-                <div className="flex flex-nowrap items-center gap-1.5 lg:gap-4 mb-3 lg:mb-5 order-3 lg:order-none w-[calc(100%+20px)] sm:w-auto">
-                  <Link to={`/${slide.buttonLink || 'products'}`}>
-                    <Button className="bg-[#F25C05] hover:bg-[#D95000] text-white text-[9px] xs:text-[10px] lg:text-sm font-semibold px-2 py-1.5 lg:px-5 lg:py-4 rounded-md lg:rounded-lg shadow-lg shadow-[#F25C05]/20 transition-all hover:-translate-y-0.5 flex items-center gap-1">
-                      {slide.buttonText || 'Explore Collection'}
+                {/* Buttons (Desktop - Animates with slide) */}
+                <div className="hidden lg:flex lg:flex-row items-center gap-1.5 lg:gap-4 mb-3 lg:mb-5 order-3 lg:order-0 w-auto z-40">
+                  <Link to={`/products`}>
+                    <Button className="bg-[#F25C05] hover:bg-[#D95000] text-white text-[9px] xs:text-[10px] lg:text-sm font-semibold px-2 py-1.5 lg:px-5 lg:py-4 rounded-md lg:rounded-lg shadow-lg shadow-[#F25C05]/20 transition-none duration-0 flex items-center gap-1">
+                      Explore Collection
                       <ArrowRight className="w-2.5 h-2.5 lg:w-4 lg:h-4" />
                     </Button>
                   </Link>
-                  <Button
-                    variant="ghost"
-                    className="bg-transparent hover:bg-transparent text-[#1A1A1A] hover:text-[#F25C05] border-none text-[9px] xs:text-[10px] lg:text-sm font-bold px-1 py-1 lg:px-5 lg:py-4 shadow-none transition-all hover:-translate-y-0.5 flex items-center gap-1 shrink-0"
-                  >
-                    <PlayCircle className="w-3.5 h-3.5 lg:w-5 lg:h-5 text-current" />
-                    <span>Watch Video</span>
-                  </Button>
                 </div>
 
                 {/* Feature Badges (Mobile Grid & Desktop Flex) */}
@@ -348,9 +341,9 @@ const Hero = () => {
                   </div>
 
                   {/* Mobile Version (Grid exactly like screenshot) */}
-                  <div className="grid grid-cols-4 gap-1 lg:hidden w-[calc(100%+16px)] -ml-2 text-center">
-                    <div className="flex flex-col items-center gap-1 px-0.5">
-                      <div className="w-6 h-6 xs:w-7 xs:h-7 rounded-full border border-[#F25C05]/30 bg-transparent flex items-center justify-center mb-1">
+                  <div className="grid grid-cols-2 gap-1 lg:hidden w-[calc(100%+16px)] -ml-2 text-center">
+                    <div className="flex flex-col items-center gap-0.5">
+                      <div className="w-6 h-6 xs:w-6 xs:h-6 rounded-full border border-[#F25C05]/30 bg-transparent flex items-center justify-center mb-1">
                         <Flower2 className="w-3 h-3 text-[#F25C05]" />
                       </div>
                       <span className="text-[6.5px] xs:text-[7px] font-semibold text-gray-800 leading-tight">
@@ -493,6 +486,16 @@ const Hero = () => {
               <br /> Support
             </div>
           </div>
+        </div>
+
+        {/* Buttons (Mobile - Persistent, no fade on slide change) */}
+        <div className="absolute bottom-32 left-[10%] sm:right-6 flex flex-col items-center gap-1.5 w-auto sm:w-auto z-40 lg:hidden pointer-events-auto">
+          <Link to={`/products`}>
+            <Button className="bg-[#F25C05] hover:bg-[#D95000] text-white text-[9px] xs:text-[10px] lg:text-sm font-semibold px-2 py-1.5 lg:px-5 lg:py-4 rounded-md lg:rounded-lg shadow-lg shadow-[#F25C05]/20 transition-none duration-0 flex items-center gap-1">
+              Explore Collection
+              <ArrowRight className="w-2.5 h-2.5 lg:w-4 lg:h-4" />
+            </Button>
+          </Link>
         </div>
 
         {/* Slide Indicators */}

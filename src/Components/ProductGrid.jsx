@@ -106,9 +106,20 @@ export function ProductGrid({ selectedCategory, filters, onCategoryChange }) {
   const sorted = [...filtered].sort((a, b) => {
     switch (sortBy) {
       case "default": {
+        // Sort by Category order first
+        const catIndexA = categories.findIndex(c => c.id === a.categoryId || c.name === a.categoryId);
+        const catIndexB = categories.findIndex(c => c.id === b.categoryId || c.name === b.categoryId);
+        
+        const orderCatA = catIndexA !== -1 ? catIndexA : 999999;
+        const orderCatB = catIndexB !== -1 ? catIndexB : 999999;
+
+        if (orderCatA !== orderCatB) return orderCatA - orderCatB;
+
+        // Then sort by product sortOrder
         const orderA = typeof a.sortOrder === 'number' ? a.sortOrder : 999999;
         const orderB = typeof b.sortOrder === 'number' ? b.sortOrder : 999999;
         if (orderA !== orderB) return orderA - orderB;
+        
         const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
         const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
         return timeB - timeA;
